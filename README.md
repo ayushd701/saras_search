@@ -65,7 +65,7 @@ npm run dev
 http://localhost:5173
 ```
 
-##How It Works
+## How It Works
 
 ### 🔎 `SearchBar.vue`
 - Manages user input
