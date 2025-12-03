@@ -18,7 +18,18 @@
     />
 
     <button
+      v-if="localQuery"
+      class="btn btn-ghost"
+      type="button"
+      @click="onClear"
+      :aria-label="'Clear search'"
+    >
+      ✕
+    </button>
+
+    <button
       class="btn"
+      type="button"
       @click="onEnter"
       :aria-label="'Search for ' + localQuery"
     >
@@ -32,7 +43,7 @@ import { ref, watch } from 'vue'
 import { useDebounce } from '../utils/useDebounce.js'
 
 const props = defineProps({
-  modelValue: { type: String, default: '' },
+  query: { type: String, default: '' },
   debounce: { type: Number, default: 300 },
   placeholder: { type: String, default: 'Search...' },
 })
@@ -40,9 +51,14 @@ const emit = defineEmits(['update:query', 'search', 'keydown'])
 
 const inputRef = ref(null)
 const inputId = `search-${Math.random().toString(36).slice(2,9)}`
-const localQuery = ref(props.modelValue)
+const localQuery = ref(props.query)
 
-watch(() => props.modelValue, (v) => (localQuery.value = v))
+watch(
+  () => props.query,
+  (v) => {
+    if (v !== localQuery.value) localQuery.value = v
+  }
+)
 
 const debounced = useDebounce((val) => {
   emit('update:query', val)
@@ -59,8 +75,15 @@ function onEnter() {
 }
 
 function onEsc() {
+  onClear()
+}
+
+function onClear() {
   localQuery.value = ''
   emit('update:query', '')
   emit('search', '')
+  if (inputRef.value) {
+    inputRef.value.focus()
+  }
 }
 </script>

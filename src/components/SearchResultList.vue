@@ -1,11 +1,12 @@
 <template>
-  <div class="result-list" @keydown="onKeyDown">
+  <div class="result-list" role="list">
     <transition-group name="list" tag="div">
       <SearchResultItem
         v-for="item in results"
         :key="item.id"
         :result="item"
         :expanded="expandedId === item.id"
+        :query="query"
         @toggle="() => $emit('open', item.id)"
       />
     </transition-group>
@@ -14,11 +15,13 @@
 
 <script setup>
 import SearchResultItem from './SearchResultItem.vue'
-const props = defineProps({
+
+defineProps({
   results: { type: Array, default: () => [] },
-  expandedId: { type: [String, Number, null], default: null }
+  expandedId: { type: [String, Number, null], default: null },
+  query: { type: String, default: '' }
 })
-const emit = defineEmits(['open'])
+defineEmits(['open'])
 
 </script>
 
