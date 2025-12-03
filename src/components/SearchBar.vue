@@ -2,33 +2,23 @@
   <div class="searchbar">
     <label :for="inputId" class="visually-hidden">Search</label>
 
-    <div class="input-wrap">
-      <input
-        :id="inputId"
-        ref="inputRef"
-        class="input"
-        :placeholder="placeholder"
-        v-model="localQuery"
-        @input="onInput"
-        @keydown.down.prevent="$emit('keydown', 'down')"
-        @keydown.up.prevent="$emit('keydown', 'up')"
-        @keydown.enter.prevent="onEnter"
-        @keydown.esc="onEsc"
-        role="searchbox"
-        :aria-label="placeholder"
-      />
-
-      <button
-        v-if="localQuery"
-        class="clear-btn"
-        @click="() => { localQuery=''; onEnter(); }"
-        aria-label="Clear search"
-        title="Clear"
-      >✕</button>
-    </div>
+    <input
+      :id="inputId"
+      ref="inputRef"
+      class="input"
+      :placeholder="placeholder"
+      v-model="localQuery"
+      @input="onInput"
+      @keydown.down.prevent="$emit('keydown', 'down')"
+      @keydown.up.prevent="$emit('keydown', 'up')"
+      @keydown.enter.prevent="onEnter"
+      @keydown.esc="onEsc"
+      role="searchbox"
+      :aria-label="placeholder"
+    />
 
     <button
-      class="btn search-btn"
+      class="btn"
       @click="onEnter"
       :aria-label="'Search for ' + localQuery"
     >
@@ -74,96 +64,3 @@ function onEsc() {
   emit('search', '')
 }
 </script>
-
-<style scoped>
-.searchbar {
-  display: flex;
-  gap: 12px;
-  align-items: center;
-  width: 100%;
-}
-
-.input-wrap {
-  position: relative;
-  flex: 1 1 auto;
-  min-width: 0; 
-}
-
-.input {
-  width: 100%;
-  padding: 12px 44px 12px 14px; 
-  border-radius: 10px;
-  border: 1px solid rgba(0,0,0,0.08);
-  background: var(--card);
-  color: var(--text);
-  font-size: 15px;
-  outline: none;
-  transition: box-shadow .12s ease, border-color .12s ease;
-}
-.input::placeholder { color: rgba(0,0,0,0.4); }
-
-.clear-btn {
-  position: absolute;
-  right: 8px;
-  top: 50%;
-  transform: translateY(-50%);
-  border: none;
-  background: rgba(0,0,0,0.06);
-  color: var(--text);
-  width: 30px;
-  height: 30px;
-  border-radius: 8px;
-  cursor: pointer;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 14px;
-  padding: 0;
-}
-.clear-btn:hover { transform: translateY(-50%) scale(1.03); }
-
-.btn {
-  padding: 10px 12px;
-  border-radius: 10px;
-  background: var(--card);
-  border: 1px solid rgba(0,0,0,0.06);
-  cursor: pointer;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.06);
-  transition: transform .12s ease, box-shadow .12s ease;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-}
-.btn:hover { transform: translateY(-2px); }
-
-.search-btn { min-width: 48px; min-height: 44px; font-size: 18px; }
-
-.input:focus, .clear-btn:focus, .btn:focus {
-  box-shadow: 0 6px 18px rgba(37,99,235,0.12);
-  border-color: var(--accent);
-  outline: none;
-}
-
-@media (max-width: 520px) {
-  .searchbar {
-    flex-direction: column;
-    align-items: stretch;
-    gap: 8px;
-  }
-  .input {
-    padding-right: 42px;
-    font-size: 15px;
-  }
-  .clear-btn { right: 8px; }
-  .search-btn {
-    width: 100%;
-    padding: 10px;
-    font-size: 16px;
-  }
-}
-
-@media (max-width: 360px) {
-  .clear-btn { width: 26px; height: 26px; font-size: 13px; border-radius: 6px; }
-  .input { padding: 10px 40px 10px 12px; }
-}
-</style>
